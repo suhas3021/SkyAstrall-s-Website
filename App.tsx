@@ -21,7 +21,7 @@ const App: React.FC = () => {
       <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow pt-16">
+        <main className="flex-grow pt-32">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />

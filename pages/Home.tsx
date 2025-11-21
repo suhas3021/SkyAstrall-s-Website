@@ -3,7 +3,7 @@ import { ArrowRight, Quote, Zap, BarChart, TrendingUp } from 'lucide-react';
 import { animate, useInView, motion } from 'framer-motion';
 import { PROJECTS, TESTIMONIALS, SERVICES } from '../constants';
 
-const AnimatedCounter = ({ value, label }: { value: string, label: string }) => {
+const AnimatedCounter: React.FC<{ value: string; label: string }> = ({ value, label }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -154,7 +154,7 @@ export const Home: React.FC = () => {
       <HeroSectionOne />
 
       {/* 2. Stats Section */}
-      <section className="py-16 bg-gradient-to-r from-primary-50/20 via-white to-primary-50/20 border-b border-slate-100">
+      <section className="py-16 bg-gradient-to-r from-primary-50/20 via-white to-primary-50/20 border-b border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -204,7 +204,7 @@ export const Home: React.FC = () => {
                       <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
                         {project.title}
                       </h3>
-                      <div className="bg-white text-primary-950 rounded-full p-2 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 shadow-lg">
+                      <div className="bg-white text-primary-900 rounded-full p-2 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 shadow-lg">
                         <ArrowRight size={20} />
                       </div>
                     </div>
@@ -253,7 +253,7 @@ export const Home: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((testimonial) => (
-                <div key={testimonial.id} className="bg-white p-8 rounded-xl shadow-sm border border-transparent hover:shadow-lg hover:border-primary-200 transition-all duration-300 flex flex-col">
+                <div key={testimonial.id} className="bg-white p-8 rounded-xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 flex flex-col">
                     <div className="mb-6 text-primary-400">
                         <Quote size={32} className="fill-primary-50 text-primary-400" />
                     </div>
