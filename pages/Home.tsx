@@ -37,7 +37,7 @@ const AnimatedCounter: React.FC<{ value: string; label: string }> = ({ value, la
 
 export function HeroSectionOne() {
   return (
-    <div className="relative bg-gradient-to-b from-primary-50/30 via-white to-white pt-24 pb-24 lg:pt-40 lg:pb-48 overflow-hidden min-h-[80vh] flex items-center justify-center">
+    <div className="relative bg-white from-primary-50/30 via-white to-white pt-24 pb-24 lg:pt-40 lg:pb-48 overflow-hidden min-h-[80vh] flex items-center justify-center">
        {/* Floating UI Elements (Desktop Only) */}
        <div className="hidden lg:block absolute inset-0 pointer-events-none max-w-[1600px] mx-auto">
           
