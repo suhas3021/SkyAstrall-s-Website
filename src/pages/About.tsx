@@ -1,9 +1,15 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
+import { SEO } from "../components/SEO";
 
 export const About: React.FC = () => {
   return (
     <div className="flex flex-col w-full">
+      <SEO
+        title="About Us - SkyAstrall"
+        description="Learn about SkyAstrall, a team of engineers, designers, and strategists passionate about digital transformation and custom software solutions."
+        canonical="/about"
+      />
       {/* 1. Hero / Who We Are Section */}
       <section className="relative py-20 md:py-32 bg-gradient-to-b from-primary-50/20 via-white to-white overflow-hidden">
         {/* Abstract Background Pattern (Same as Home) */}
@@ -54,8 +60,9 @@ export const About: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-purple-600 transform rotate-3 rounded-3xl opacity-20 blur-lg"></div>
               <img
                 src="https://picsum.photos/600/600?random=20"
-                alt="Office team working"
+                alt="SkyAstrall team collaborating in office"
                 className="relative rounded-3xl shadow-2xl w-full object-cover aspect-square border border-white/50"
+                loading="lazy"
               />
             </div>
           </div>

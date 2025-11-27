@@ -1,42 +1,94 @@
-import { ArrowRight, CheckCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { SERVICES } from '../constants';
+import { ArrowRight, CheckCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { SERVICES } from "../constants";
+import { SEO } from "../components/SEO";
 
 const PROCESS_STEPS = [
   {
-    step: '01',
-    title: 'Discovery',
-    description: 'We dive deep into your requirements, business goals, and technical constraints to understand exactly what you need.',
+    step: "01",
+    title: "Discovery",
+    description:
+      "We dive deep into your requirements, business goals, and technical constraints to understand exactly what you need.",
   },
   {
-    step: '02',
-    title: 'Planning',
-    description: 'Detailed project roadmap with milestones, tech stack selection, and architecture design tailored to your scale.',
+    step: "02",
+    title: "Planning",
+    description:
+      "Detailed project roadmap with milestones, tech stack selection, and architecture design tailored to your scale.",
   },
   {
-    step: '03',
-    title: 'Development',
-    description: 'Agile sprints with regular updates, code reviews, and iterative refinement based on your feedback.',
+    step: "03",
+    title: "Development",
+    description:
+      "Agile sprints with regular updates, code reviews, and iterative refinement based on your feedback.",
   },
   {
-    step: '04',
-    title: 'Delivery',
-    description: 'Thorough testing, documentation, deployment support, and knowledge transfer for seamless handoff.',
+    step: "04",
+    title: "Delivery",
+    description:
+      "Thorough testing, documentation, deployment support, and knowledge transfer for seamless handoff.",
   },
 ];
 
 const TECH_STACK = [
-  { category: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'] },
-  { category: 'Backend', items: ['Python', 'Django', 'Node.js', 'FastAPI'] },
-  { category: 'Database', items: ['PostgreSQL', 'MongoDB', 'Redis', 'Firebase'] },
-  { category: 'Cloud', items: ['AWS', 'Azure', 'Google Cloud', 'Vercel'] },
-  { category: 'Embedded', items: ['Arduino', 'STM32', 'Raspberry Pi', 'ESP32'] },
-  { category: 'AI/ML', items: ['TensorFlow', 'PyTorch', 'OpenAI', 'LangChain'] },
+  {
+    category: "Frontend",
+    items: ["React", "TypeScript", "Tailwind CSS", "Next.js"],
+  },
+  { category: "Backend", items: ["Python", "Django", "Node.js", "FastAPI"] },
+  {
+    category: "Database",
+    items: ["PostgreSQL", "MongoDB", "Redis", "Firebase"],
+  },
+  { category: "Cloud", items: ["AWS", "Azure", "Google Cloud", "Vercel"] },
+  {
+    category: "Embedded",
+    items: ["Arduino", "STM32", "Raspberry Pi", "ESP32"],
+  },
+  {
+    category: "AI/ML",
+    items: ["TensorFlow", "PyTorch", "OpenAI", "LangChain"],
+  },
 ];
 
 export const Services = () => {
+  const navigate = useNavigate();
+
+  const handleStartProject = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate("/", { state: { scrollToContact: true } });
+  };
+
   return (
     <div className="flex flex-col w-full">
+      <SEO
+        title="Our Services - SkyAstrall"
+        description="Explore SkyAstrall's premium services: Full-Stack Development, AI Integration, IoT Solutions, and Cloud Architecture. We deliver end-to-end digital excellence."
+        canonical="/services"
+        keywords="web development, AI integration, IoT, cloud services, software consulting"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          serviceType: "Custom Software Development",
+          provider: {
+            "@type": "Organization",
+            name: "SkyAstrall",
+          },
+          areaServed: "Worldwide",
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "SkyAstrall Services",
+            itemListElement: SERVICES.map((service) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: service.title,
+                description: service.description,
+              },
+            })),
+          },
+        }}
+      />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-28 bg-gradient-to-b from-primary-50/30 via-white to-white overflow-hidden">
@@ -51,13 +103,15 @@ export const Services = () => {
               What We Do
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-950 mb-6 tracking-tight leading-tight">
-              End-to-End{' '}
+              End-to-End{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">
                 Digital Solutions
               </span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
-              From concept to deployment, we deliver full-stack development, AI integration, IoT systems, and automation solutions that transform how businesses operate.
+              From concept to deployment, we deliver full-stack development, AI
+              integration, IoT systems, and automation solutions that transform
+              how businesses operate.
             </p>
           </div>
         </div>
@@ -75,7 +129,9 @@ export const Services = () => {
                 <div className="w-12 h-12 bg-gradient-to-br from-primary-50 to-purple-50 rounded-xl flex items-center justify-center text-primary-600 mb-5 group-hover:from-primary-600 group-hover:to-primary-700 group-hover:text-white transition-all duration-300">
                   <service.icon size={24} />
                 </div>
-                <h3 className="text-lg font-bold text-primary-950 mb-2">{service.title}</h3>
+                <h3 className="text-lg font-bold text-primary-950 mb-2">
+                  {service.title}
+                </h3>
                 <p className="text-slate-600 text-sm leading-relaxed">
                   {service.description}
                 </p>
@@ -89,23 +145,30 @@ export const Services = () => {
       <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">How We Work</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+              How We Work
+            </h2>
             <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-              A proven process refined over years of delivering successful projects for clients worldwide.
+              A proven process refined over years of delivering successful
+              projects for clients worldwide.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {PROCESS_STEPS.map((step, index) => (
-              <div key={step.step} className="relative">
+              <div key={step.step} className="relative group">
                 {index < PROCESS_STEPS.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-[60%] w-full h-0.5 bg-gradient-to-r from-primary-200 to-transparent" />
+                  <div className="hidden lg:block absolute top-6 left-16 w-full h-0.5 bg-gradient-to-r from-primary-200 to-transparent opacity-50" />
                 )}
-                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-200 to-primary-300 mb-4">
+                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-200 to-primary-300 mb-4 group-hover:from-primary-600 group-hover:to-primary-400 transition-all duration-300">
                   {step.step}
                 </div>
-                <h3 className="text-xl font-bold text-primary-950 mb-2">{step.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
+                <h3 className="text-xl font-bold text-primary-950 mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
@@ -116,20 +179,34 @@ export const Services = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Technology Stack</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+              Technology Stack
+            </h2>
             <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-              We leverage modern, battle-tested technologies to build scalable and maintainable solutions.
+              We leverage modern, battle-tested technologies to build scalable
+              and maintainable solutions.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {TECH_STACK.map((stack) => (
-              <div key={stack.category} className="bg-slate-50 rounded-xl p-5 border border-slate-100">
-                <h4 className="text-xs font-bold text-primary-600 uppercase tracking-wider mb-3">{stack.category}</h4>
+              <div
+                key={stack.category}
+                className="bg-slate-50 rounded-xl p-5 border border-slate-100"
+              >
+                <h4 className="text-xs font-bold text-primary-600 uppercase tracking-wider mb-3">
+                  {stack.category}
+                </h4>
                 <ul className="space-y-1.5">
                   {stack.items.map((item) => (
-                    <li key={item} className="flex items-center text-sm text-slate-700">
-                      <CheckCircle size={12} className="text-primary-500 mr-2 flex-shrink-0" />
+                    <li
+                      key={item}
+                      className="flex items-center text-sm text-slate-700"
+                    >
+                      <CheckCircle
+                        size={12}
+                        className="text-primary-500 mr-2 flex-shrink-0"
+                      />
                       {item}
                     </li>
                   ))}
@@ -152,16 +229,19 @@ export const Services = () => {
             Ready to Build Something Great?
           </h2>
           <p className="text-lg text-primary-100 mb-8 max-w-2xl mx-auto">
-            Let's discuss your project. Whether it's a web app, automation system, or IoT solution, we're here to help bring your vision to life.
+            Let's discuss your project. Whether it's a web app, automation
+            system, or IoT solution, we're here to help bring your vision to
+            life.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="#contact"
+            <button
+              type="button"
+              onClick={handleStartProject}
               className="w-full sm:w-auto px-8 py-4 bg-white text-primary-900 rounded-xl font-semibold hover:bg-primary-50 transition-all duration-300 shadow-lg flex items-center justify-center"
             >
               Start Your Project
               <ArrowRight size={18} className="ml-2" />
-            </a>
+            </button>
             <Link
               to="/products"
               className="w-full sm:w-auto px-8 py-4 border-2 border-white/30 text-white rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
@@ -171,7 +251,6 @@ export const Services = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

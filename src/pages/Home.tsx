@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowRight, Quote, Zap, TrendingUp } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { PROJECTS, TESTIMONIALS, SERVICES } from "../constants";
 import { FloatingCard } from "../components/FloatingCard";
 import { ContactForm } from "../components/ContactForm";
+import { SEO } from "../components/SEO";
 
 // Custom hook replacing framer-motion's useInView
 const useInView = (options: IntersectionObserverInit = {}) => {
@@ -82,6 +84,21 @@ const AnimatedCounter: React.FC<{ value: string; label: string }> = ({
 };
 
 export function HeroSectionOne() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && (location.state as any).scrollToContact) {
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        // Add a small delay to ensure the page has rendered
+        setTimeout(() => {
+          contactSection.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+        window.history.replaceState({}, document.title);
+      }
+    }
+  }, [location]);
+
   return (
     <div className="relative bg-white from-primary-50/30 via-white to-white pt-24 pb-24 lg:pt-40 lg:pb-48 overflow-hidden min-h-[80vh] flex items-center justify-center">
       {/* Floating UI Elements (Desktop Only) - Positioned to not block content */}
@@ -212,6 +229,22 @@ export function HeroSectionOne() {
 export const Home: React.FC = () => {
   return (
     <div className="flex flex-col w-full">
+      <SEO
+        title="SkyAstrall - Digital Transformation & Custom Software Development"
+        description="SkyAstrall helps businesses build the future with custom software, IoT solutions, and high-performance backends. Transform your ambitious ideas into reality."
+        keywords="software development, IoT, AI, backend, digital transformation, SkyAstrall"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "SkyAstrall",
+          url: "https://skyastrall.com",
+          logo: "https://skyastrall.com/logo.png",
+          sameAs: [
+            "https://twitter.com/SkyAstrall",
+            "https://linkedin.com/company/skyastrall",
+          ],
+        }}
+      />
       {/* 1. Hero Section */}
       <HeroSectionOne />
 
@@ -373,6 +406,7 @@ export const Home: React.FC = () => {
                   src={project.imageUrl}
                   alt={project.title}
                   className="object-cover w-full h-full"
+                  loading="lazy"
                 />
 
                 {/* Improved Overlay */}
@@ -470,6 +504,7 @@ export const Home: React.FC = () => {
                     src={testimonial.image}
                     alt={testimonial.name}
                     className="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-primary-100"
+                    loading="lazy"
                   />
                   <div>
                     <h4 className="font-bold text-primary-950 text-base">

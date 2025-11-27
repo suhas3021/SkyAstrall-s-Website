@@ -8,10 +8,30 @@ import {
   GitBranch,
   Terminal,
 } from "lucide-react";
+import { SEO } from "../components/SEO";
 
 export const Products: React.FC = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Products - SkyAstrall | Guardian MCP"
+        description="Discover Guardian MCP by SkyAstrall - The memory and discipline layer for AI code development. Stop hallucinations and ensure code quality."
+        canonical="/products"
+        keywords="Guardian MCP, AI coding assistant, code quality, software products, SkyAstrall"
+        image="/guardian-mcp-preview.png"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Guardian MCP",
+          applicationCategory: "DeveloperApplication",
+          operatingSystem: "Windows, macOS, Linux",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+          },
+        }}
+      />
       {/* Product Hero Section */}
       <section className="relative bg-slate-950 pt-20 pb-32 overflow-hidden">
         {/* Background Elements */}

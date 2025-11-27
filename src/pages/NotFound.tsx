@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const NotFound = () => {
   return (
     <div className="min-h-[70vh] flex items-center justify-center bg-gradient-to-b from-primary-50/30 via-white to-white">
+      <SEO
+        title="Page Not Found - SkyAstrall"
+        description="The page you're looking for doesn't exist."
+        noindex={true}
+      />
       <div className="text-center px-4">
         <h1 className="text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800 mb-4">
           404
