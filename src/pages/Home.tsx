@@ -1,36 +1,73 @@
-import React, { useEffect, useRef } from 'react';
-import { ArrowRight, Quote, Zap, BarChart, TrendingUp } from 'lucide-react';
-import { animate, useInView, motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowRight, Quote, Zap, TrendingUp } from 'lucide-react';
 import { PROJECTS, TESTIMONIALS, SERVICES } from '../constants';
+import { FloatingCard } from '../components/FloatingCard';
 
-const AnimatedCounter: React.FC<{ value: string; label: string }> = ({ value, label }) => {
+// Custom hook replacing framer-motion's useInView
+const useInView = (options: IntersectionObserverInit = {}) => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
-    if (isInView && ref.current) {
-      const number = parseInt(value.replace(/[^0-9]/g, '')) || 0;
-      const suffix = value.replace(/[0-9]/g, '');
-      
-      const controls = animate(0, number, {
-        duration: 2.5,
-        ease: "circOut",
-        onUpdate(v) {
-          if (ref.current) {
-            ref.current.textContent = Math.floor(v) + suffix;
-          }
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect(); // once: true behavior
         }
-      });
-      return () => controls.stop();
-    }
+      },
+      { rootMargin: '-50px', ...options }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+};
+
+// Easing function (circOut equivalent)
+const easeCircOut = (t: number): number => Math.sqrt(1 - Math.pow(t - 1, 2));
+
+const AnimatedCounter: React.FC<{ value: string; label: string }> = ({ value, label }) => {
+  const { ref, isInView } = useInView();
+  const numberRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isInView || !numberRef.current) return;
+
+    const number = parseInt(value.replace(/[^0-9]/g, '')) || 0;
+    const suffix = value.replace(/[0-9]/g, '');
+    const duration = 2500;
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeCircOut(progress);
+      const currentValue = Math.floor(easedProgress * number);
+
+      if (numberRef.current) {
+        numberRef.current.textContent = currentValue + suffix;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      }
+    };
+
+    requestAnimationFrame(tick);
   }, [isInView, value]);
 
   return (
-    <div className="group">
-        <div ref={ref} className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800 mb-2 group-hover:scale-110 transition-transform duration-300">
-            0
-        </div>
-        <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide">{label}</div>
+    <div ref={ref} className="group">
+      <div ref={numberRef} className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800 mb-2 group-hover:scale-110 transition-transform duration-300">
+        0
+      </div>
+      <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide">{label}</div>
     </div>
   );
 };
@@ -38,79 +75,75 @@ const AnimatedCounter: React.FC<{ value: string; label: string }> = ({ value, la
 export function HeroSectionOne() {
   return (
     <div className="relative bg-white from-primary-50/30 via-white to-white pt-24 pb-24 lg:pt-40 lg:pb-48 overflow-hidden min-h-[80vh] flex items-center justify-center">
-       {/* Floating UI Elements (Desktop Only) */}
-       <div className="hidden lg:block absolute inset-0 pointer-events-none max-w-[1600px] mx-auto">
-          
-          {/* Top Left - Large Revenue Card */}
-          <motion.div
-             animate={{ y: [0, -15, 0], x: [0, 5, 0] }}
-             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-             className="absolute top-20 left-10 xl:left-20 bg-white/80 backdrop-blur-sm p-5 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 z-20 flex gap-4 items-center min-w-[240px]"
-          >
-             <div className="w-14 h-14 bg-gradient-to-br from-primary-100 to-primary-50 rounded-xl flex items-center justify-center text-primary-600">
-                <Zap size={32} fill="currentColor" />
-             </div>
-             <div>
-                <div className="text-sm text-slate-500 font-medium">Total Revenue</div>
-                <div className="text-2xl font-bold text-slate-900">$124,500</div>
-             </div>
-          </motion.div>
+       {/* Floating UI Elements (Desktop Only) - Positioned to not block content */}
+       <div className="hidden xl:block absolute inset-0 pointer-events-none">
 
-          {/* Top Right - Detailed Analytics Card */}
-          <motion.div
-             animate={{ y: [0, 20, 0], rotate: [0, -2, 0] }}
-             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-             className="absolute top-32 right-10 xl:right-20 bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 z-20 w-80"
+          {/* Top Left - Revenue Card */}
+          <FloatingCard
+            animationClass="animate-float-1"
+            className="absolute top-24 left-4 2xl:left-12 p-4 z-10 flex gap-3 items-center opacity-90 scale-90 2xl:scale-100"
           >
-             <div className="flex justify-between items-center mb-6">
-                <div className="font-bold text-slate-800 text-lg">Analytics</div>
-                <div className="text-green-500 text-sm font-bold">+14%</div>
-             </div>
-             <div className="flex items-end gap-2 h-32 justify-between">
-                {[40, 70, 45, 90, 65, 85].map((h, i) => (
-                    <div key={i} className="w-8 bg-gradient-to-t from-primary-600 to-primary-400 rounded-t-md opacity-80 hover:opacity-100 transition-opacity" style={{ height: `${h}%` }}></div>
-                ))}
-             </div>
-          </motion.div>
+            <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-primary-50 rounded-xl flex items-center justify-center text-primary-600">
+              <Zap size={26} fill="currentColor" />
+            </div>
+            <div>
+              <div className="text-xs text-slate-500 font-medium">Total Revenue</div>
+              <div className="text-xl font-bold text-slate-900">$124,500</div>
+            </div>
+          </FloatingCard>
+
+          {/* Top Right - Analytics Card - Moved further right and smaller */}
+          <FloatingCard
+            animationClass="animate-float-2"
+            className="absolute top-20 right-4 2xl:right-12 p-4 z-10 w-64 opacity-90 scale-90 2xl:scale-100"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <div className="font-bold text-slate-800">Analytics</div>
+              <div className="text-green-500 text-xs font-bold">+14%</div>
+            </div>
+            <div className="flex items-end gap-1.5 h-20 justify-between">
+              {[40, 70, 45, 90, 65, 85].map((h, i) => (
+                <div key={i} className="w-6 bg-gradient-to-t from-primary-600 to-primary-400 rounded-t-md opacity-80" style={{ height: `${h}%` }} />
+              ))}
+            </div>
+          </FloatingCard>
 
           {/* Bottom Left - Active Users Card */}
-          <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute bottom-40 left-12 xl:left-24 bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 z-20"
-         >
-            <div className="flex items-center gap-4 mb-4">
-               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl">
-                  <TrendingUp className="text-blue-600" size={28} />
-               </div>
-               <div>
-                  <div className="text-xs uppercase tracking-wider text-slate-500 font-bold">Active Users</div>
-                  <div className="font-bold text-slate-900 text-3xl">14.2k</div>
-               </div>
-            </div>
-            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-               <div className="bg-gradient-to-r from-blue-500 to-cyan-400 h-full w-[70%]"></div>
-            </div>
-         </motion.div>
-
-          {/* Bottom Right - System Status Card */}
-          <motion.div
-             animate={{ y: [0, 15, 0], x: [0, -10, 0] }}
-             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-             className="absolute bottom-32 right-12 xl:right-32 bg-white/80 backdrop-blur-sm p-5 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 z-20 flex items-center gap-4 min-w-[260px]"
+          <FloatingCard
+            animationClass="animate-float-3"
+            className="absolute bottom-32 left-4 2xl:left-12 p-4 z-10 opacity-90 scale-90 2xl:scale-100"
           >
-              <div className="relative flex-shrink-0">
-                 <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
-                 <div className="absolute inset-0 w-4 h-4 bg-green-500 rounded-full animate-ping opacity-20"></div>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-2.5 rounded-xl">
+                <TrendingUp className="text-blue-600" size={22} />
               </div>
               <div>
-                 <div className="text-sm font-bold text-primary-950">System Status</div>
-                 <div className="text-xs text-slate-500 mt-1">All services operational</div>
+                <div className="text-xs uppercase tracking-wider text-slate-500 font-bold">Active Users</div>
+                <div className="font-bold text-slate-900 text-2xl">14.2k</div>
               </div>
-              <div className="ml-auto bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded-md">
-                 99.9%
-              </div>
-          </motion.div>
+            </div>
+            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-500 to-cyan-400 h-full w-[70%]" />
+            </div>
+          </FloatingCard>
+
+          {/* Bottom Right - System Status Card */}
+          <FloatingCard
+            animationClass="animate-float-4"
+            className="absolute bottom-24 right-4 2xl:right-12 p-4 z-10 flex items-center gap-3 opacity-90 scale-90 2xl:scale-100"
+          >
+            <div className="relative flex-shrink-0">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+              <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping opacity-20" />
+            </div>
+            <div>
+              <div className="text-sm font-bold text-primary-950">System Status</div>
+              <div className="text-xs text-slate-500">All services operational</div>
+            </div>
+            <div className="ml-auto bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded-md">
+              99.9%
+            </div>
+          </FloatingCard>
        </div>
 
        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
