@@ -231,6 +231,123 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* 2.5 Featured Product: Guardian MCP */}
+      <section className="py-24 bg-slate-950 relative overflow-hidden">
+        {/* Background effects */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-900/20 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary-900/30 border border-primary-500/30 text-primary-300 mb-6 backdrop-blur-sm">
+                <span className="text-xs font-bold tracking-wider uppercase">
+                  New Release
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                Guardian <span className="text-primary-400">MCP</span>
+              </h2>
+              <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                The missing engineering layer for AI code development. Stop your
+                AI assistant from hallucinating code and breaking your build.
+              </p>
+
+              <ul className="space-y-4 mb-10">
+                {[
+                  "Stops code duplication & hallucinations",
+                  "100% private & local execution",
+                  "Persistent cross-session memory",
+                  "Works with Cursor, Windsurf & Claude",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center text-slate-300">
+                    <div className="w-6 h-6 rounded-full bg-primary-500/20 flex items-center justify-center mr-3">
+                      <svg
+                        className="w-3.5 h-3.5 text-primary-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="https://guardianmcp.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-primary-600 hover:bg-primary-500 text-white rounded-xl font-bold transition-all duration-300 shadow-lg shadow-primary-900/20 flex items-center justify-center"
+                >
+                  Get Guardian MCP
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </a>
+                <a
+                  href="/products"
+                  className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold transition-all duration-300 flex items-center justify-center"
+                >
+                  Learn More
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:w-1/2 relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary-600/20 to-purple-600/20 rounded-2xl blur-2xl transform rotate-3"></div>
+              <div className="relative bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+                {/* Code / Terminal UI Mockup */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50"></div>
+                  </div>
+                  <div className="text-xs text-slate-500 font-mono">
+                    guardian-cli — v0.1.6
+                  </div>
+                </div>
+
+                <div className="space-y-4 font-mono text-sm">
+                  <div className="text-slate-400">
+                    $ add OAuth2 using engineering gates
+                  </div>
+
+                  <div className="pl-4 border-l-2 border-primary-500/30 space-y-2">
+                    <div className="text-primary-300">
+                      Guardian Analysis Gate:
+                    </div>
+                    <div className="text-slate-300">
+                      Scanning codebase for existing auth patterns...
+                    </div>
+                    <div className="text-green-400">
+                      ✓ Found 3 existing auth implementations
+                    </div>
+                    <div className="text-yellow-400">
+                      ⚠ WARNING: Duplicate auth logic detected in /src/lib
+                    </div>
+                    <div className="text-white mt-2">
+                      Recommendation: Extend existing `AuthService` instead of
+                      creating new files.
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 mt-4 text-slate-400">
+                    <span className="animate-pulse">▋</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 3. Work Sample Grid */}
       <section id="work" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -9,10 +9,6 @@ import {
 import {
   Cloud,
   Shield,
-  Database,
-  Activity,
-  Box,
-  Layers,
   Settings,
   Bot,
   Cpu,
@@ -20,7 +16,6 @@ import {
   Palette,
   Brain,
   Globe,
-  Zap,
 } from "lucide-react";
 
 export const NAV_LINKS: NavLink[] = [
